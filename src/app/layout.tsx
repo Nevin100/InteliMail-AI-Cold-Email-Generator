@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/Custom/theme-provider";
 import Navbar from "@/components/Custom/Navbar/Navbar";
-import Footer from "@/components/Footer/Footer";
+import Footer from "@/components/Custom/Footer/Footer";
 
 export const metadata: Metadata = {
   title: "InteliMail - AI-Powered Cold Email Generator",
