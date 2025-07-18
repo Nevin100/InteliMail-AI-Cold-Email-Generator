@@ -65,8 +65,8 @@ const NewClientPage = () => {
   };
 
   return (
-    <div className="flex justify-center items-center bg-muted min-h-screen px-4 py-6">
-      <Card className="w-full max-w-6xl p-6 bg-background rounded-xl shadow-lg">
+    <div className="flex justify-center items-center min-h-screen px-4 py-6">
+      <Card className="w-full max-w-8xl p-6 bg-background rounded-xl shadow-lg">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-foreground">
             🚀 Generate Your Cold Email
