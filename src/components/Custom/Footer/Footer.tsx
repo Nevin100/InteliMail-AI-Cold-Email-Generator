@@ -10,7 +10,7 @@ import Link from "next/link";
 const footerLinks = [
   {
     title: "About Developer",
-    href: "#",
+    href: "/about-developer",
   },
   {
     title: "Generate Mail",

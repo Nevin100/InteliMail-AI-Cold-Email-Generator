@@ -21,8 +21,9 @@ const MailPage = () => {
   const [form, setForm] = useState({
     name: "",
     companyType: "",
+    company: "",
     position: "",
-    skills: "",
+    skills: [] as string[], // skills as string array
     quality1: "",
     quality2: "",
     github: "",
@@ -30,19 +31,33 @@ const MailPage = () => {
     linkedin: "",
   });
 
+  // Handle changes; special logic for skills to convert string to array
   const handleChange = (field: string, value: string) => {
-    setForm((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
+    if (field === "skills") {
+      // Split by commas, trim spaces, filter out empty strings
+      const skillArray = value
+        .split(",")
+        .map((s) => s.trim())
+        .filter((s) => s.length > 0);
+      setForm((prev) => ({
+        ...prev,
+        skills: skillArray,
+      }));
+    } else {
+      setForm((prev) => ({
+        ...prev,
+        [field]: value,
+      }));
+    }
   };
 
   const handleReset = () => {
     setForm({
       name: "",
       companyType: "",
+      company: "",
       position: "",
-      skills: "",
+      skills: [],
       quality1: "",
       quality2: "",
       github: "",
@@ -53,6 +68,8 @@ const MailPage = () => {
 
   const handleSubmit = () => {
     setLoading(true);
+    // Here you can add form validation or actual submission logic
+
     setTimeout(() => {
       setLoading(false);
       Swal.fire({
@@ -77,13 +94,20 @@ const MailPage = () => {
           </Link>
         </div>
 
-        <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <FormField
             id="name"
             label="Your Name"
             icon={<User size={16} />}
             value={form.name}
             onChange={(e) => handleChange("name", e.target.value)}
+          />
+          <FormField
+            id="company"
+            label="Company Name"
+            icon={<User size={16} />}
+            value={form.company}
+            onChange={(e) => handleChange("company", e.target.value)}
           />
           <FormField
             id="company-type"
@@ -99,18 +123,19 @@ const MailPage = () => {
             value={form.position}
             onChange={(e) => handleChange("position", e.target.value)}
           />
-          <FormField
-            id="skills"
-            label="Your Skills"
-            icon={<ClipboardSignature size={16} />}
-            value={form.skills}
-            onChange={(e) => handleChange("skills", e.target.value)}
-          />
           <TextareaField
             id="quality1"
             label="Quality 1"
             value={form.quality1}
             onChange={(e) => handleChange("quality1", e.target.value)}
+          />
+          <FormField
+            id="skills"
+            label="Your Skills"
+            icon={<ClipboardSignature size={16} />}
+            value={form.skills.join(", ")}
+            onChange={(e) => handleChange("skills", e.target.value)}
+            type="text"
           />
           <TextareaField
             id="quality2"
@@ -144,13 +169,13 @@ const MailPage = () => {
         <div className="flex flex-col sm:flex-row justify-end gap-4 mt-6">
           <Button
             variant="outline"
-            className="w-full sm:w-auto"
+            className="w-full sm:w-auto cursor-pointer"
             onClick={handleReset}
           >
             Reset
           </Button>
           <Button
-            className="w-full sm:w-auto"
+            className="w-full sm:w-auto cursor-pointer"
             onClick={handleSubmit}
             disabled={loading}
           >
