@@ -5,51 +5,50 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { Globe, Mail, MapPin, Phone, User, Loader2 } from "lucide-react";
+import {
+  Github,
+  Linkedin,
+  Globe,
+  User,
+  Loader2,
+  ClipboardSignature,
+} from "lucide-react";
 import Swal from "sweetalert2";
 import Link from "next/link";
 
-const NewClientPage = () => {
+const MailPage = () => {
   const [loading, setLoading] = useState(false);
-
-  const [client, setClient] = useState({
-    clientName: "",
-    companyName: "",
-    address: "",
-    postal: "",
-    state: "",
-    country: "India",
-    serviceCharge: 0,
-    website: "",
+  const [form, setForm] = useState({
+    name: "",
+    companyType: "",
+    position: "",
+    skills: "",
+    quality1: "",
+    quality2: "",
+    github: "",
+    portfolio: "",
+    linkedin: "",
   });
 
-  const [email, setEmail] = useState("");
-  const [mobile, setMobile] = useState("");
-
-  const handleChange = (field: string, value: string | number) => {
-    if (field === "email") setEmail(String(value));
-    else if (field === "mobile") setMobile(String(value));
-    else {
-      setClient((prev) => ({
-        ...prev,
-        [field]: value,
-      }));
-    }
+  const handleChange = (field: string, value: string) => {
+    setForm((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
   };
 
   const handleReset = () => {
-    setClient({
-      clientName: "",
-      companyName: "",
-      address: "",
-      postal: "",
-      state: "",
-      country: "India",
-      serviceCharge: 0,
-      website: "",
+    setForm({
+      name: "",
+      companyType: "",
+      position: "",
+      skills: "",
+      quality1: "",
+      quality2: "",
+      github: "",
+      portfolio: "",
+      linkedin: "",
     });
-    setEmail("");
-    setMobile("");
   };
 
   const handleSubmit = () => {
@@ -58,21 +57,21 @@ const NewClientPage = () => {
       setLoading(false);
       Swal.fire({
         icon: "success",
-        title: "Client Saved",
-        text: "Client details have been successfully saved!",
+        title: "Form Submitted",
+        text: "Your details have been saved successfully!",
       });
     }, 1500);
   };
 
   return (
     <div className="flex justify-center items-center min-h-screen px-4 py-6">
-      <Card className="w-full max-w-8xl p-6 bg-background rounded-xl shadow-lg">
+      <Card className="w-full max-w-6xl p-6 bg-background rounded-xl shadow-lg">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-foreground">
-            🚀 Generate Your Cold Email
+            📨 Submit Your Info
           </h2>
           <Link href="/">
-            <Button className="text-muted-foreground bg-background hover:text-foreground text-xl cursor-pointer">
+            <Button className="text-muted-foreground bg-background hover:text-foreground hover:bg-background text-xl cursor-pointer">
               ✕
             </Button>
           </Link>
@@ -80,82 +79,65 @@ const NewClientPage = () => {
 
         <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <FormField
-            id="Your Name"
+            id="name"
             label="Your Name"
             icon={<User size={16} />}
-            value={client.clientName}
-            onChange={(e) => handleChange("clientName", e.target.value)}
+            value={form.name}
+            onChange={(e) => handleChange("name", e.target.value)}
           />
           <FormField
-            id="company-name"
-            label="Company Name"
-            icon={<User size={16} />}
-            value={client.companyName}
-            onChange={(e) => handleChange("companyName", e.target.value)}
+            id="company-type"
+            label="Company Type"
+            icon={<ClipboardSignature size={16} />}
+            value={form.companyType}
+            onChange={(e) => handleChange("companyType", e.target.value)}
           />
           <FormField
-            id="email"
-            label="Email Address"
-            icon={<Mail size={16} />}
-            value={email}
-            onChange={(e) => handleChange("email", e.target.value)}
+            id="position"
+            label="Position Offered"
+            icon={<ClipboardSignature size={16} />}
+            value={form.position}
+            onChange={(e) => handleChange("position", e.target.value)}
           />
           <FormField
-            id="mobile"
-            label="Mobile Number"
-            icon={<Phone size={16} />}
-            value={mobile}
-            onChange={(e) => handleChange("mobile", e.target.value)}
+            id="skills"
+            label="Your Skills"
+            icon={<ClipboardSignature size={16} />}
+            value={form.skills}
+            onChange={(e) => handleChange("skills", e.target.value)}
+          />
+          <TextareaField
+            id="quality1"
+            label="Quality 1"
+            value={form.quality1}
+            onChange={(e) => handleChange("quality1", e.target.value)}
+          />
+          <TextareaField
+            id="quality2"
+            label="Quality 2"
+            value={form.quality2}
+            onChange={(e) => handleChange("quality2", e.target.value)}
           />
           <FormField
-            id="address"
-            label="Address"
-            icon={<MapPin size={16} />}
-            value={client.address}
-            onChange={(e) => handleChange("address", e.target.value)}
+            id="github"
+            label="GitHub Profile"
+            icon={<Github size={16} />}
+            value={form.github}
+            onChange={(e) => handleChange("github", e.target.value)}
           />
           <FormField
-            id="postal"
-            label="Postal Code"
-            value={client.postal}
-            onChange={(e) => handleChange("postal", e.target.value)}
-          />
-          <FormField
-            id="state"
-            label="State / Province"
-            value={client.state}
-            onChange={(e) => handleChange("state", e.target.value)}
-          />
-          <div>
-            <Label htmlFor="country" className="text-muted-foreground">
-              Country
-            </Label>
-            <select
-              id="country"
-              value={client.country}
-              onChange={(e) => handleChange("country", e.target.value)}
-              className="mt-2 w-full p-2 border rounded-md text-sm text-foreground bg-background"
-            >
-              <option value="USA">🇺🇸 USA</option>
-              <option value="India">🇮🇳 India</option>
-              <option value="UK">🇬🇧 UK</option>
-            </select>
-          </div>
-          <FormField
-            id="service-charge"
-            label="Service Charge"
-            type="number"
-            value={client.serviceCharge}
-            onChange={(e) =>
-              handleChange("serviceCharge", Number(e.target.value))
-            }
-          />
-          <FormField
-            id="website"
-            label="Website"
+            id="portfolio"
+            label="Portfolio Link"
             icon={<Globe size={16} />}
-            value={client.website}
-            onChange={(e) => handleChange("website", e.target.value)}
+            value={form.portfolio}
+            onChange={(e) => handleChange("portfolio", e.target.value)}
+          />
+          <FormField
+            id="linkedin"
+            label="LinkedIn Profile"
+            icon={<Linkedin size={16} />}
+            value={form.linkedin}
+            onChange={(e) => handleChange("linkedin", e.target.value)}
           />
         </CardContent>
 
@@ -165,7 +147,7 @@ const NewClientPage = () => {
             className="w-full sm:w-auto"
             onClick={handleReset}
           >
-            Cancel
+            Reset
           </Button>
           <Button
             className="w-full sm:w-auto"
@@ -175,10 +157,10 @@ const NewClientPage = () => {
             {loading ? (
               <>
                 <Loader2 className="animate-spin mr-2 h-4 w-4" />
-                Generating Mail...
+                Submitting...
               </>
             ) : (
-              "Generate Mail"
+              "Submit Details"
             )}
           </Button>
         </div>
@@ -187,6 +169,7 @@ const NewClientPage = () => {
   );
 };
 
+// 🔷 Reusable Form Field (Text Input)
 type FormFieldProps = {
   id: string;
   label: string;
@@ -224,4 +207,29 @@ function FormField({
   );
 }
 
-export default NewClientPage;
+// 🔷 Reusable Textarea Field
+type TextareaFieldProps = {
+  id: string;
+  label: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+};
+
+function TextareaField({ id, label, value, onChange }: TextareaFieldProps) {
+  return (
+    <div>
+      <Label htmlFor={id} className="text-muted-foreground">
+        {label}
+      </Label>
+      <textarea
+        id={id}
+        value={value}
+        onChange={onChange}
+        placeholder={`Write about ${label.toLowerCase()}`}
+        className="mt-2 w-full p-2 h-24 border rounded-md text-sm text-foreground bg-background resize-none"
+      />
+    </div>
+  );
+}
+
+export default MailPage;
