@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState } from "react";
@@ -15,6 +16,15 @@ import {
 } from "lucide-react";
 import Swal from "sweetalert2";
 import Link from "next/link";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { toast } from "sonner";
 
 const MailPage = () => {
   const [loading, setLoading] = useState(false);
@@ -23,18 +33,19 @@ const MailPage = () => {
     companyType: "",
     company: "",
     position: "",
-    skills: [] as string[], // skills as string array
+    skills: [] as string[],
     quality1: "",
     quality2: "",
     github: "",
     portfolio: "",
     linkedin: "",
   });
+  const [skillsInput, setSkillsInput] = useState("");
+  const [open, setOpen] = useState(false);
+  const [generatedEmail, setGeneratedEmail] = useState("");
 
-  // Handle changes; special logic for skills to convert string to array
   const handleChange = (field: string, value: string) => {
     if (field === "skills") {
-      // Split by commas, trim spaces, filter out empty strings
       const skillArray = value
         .split(",")
         .map((s) => s.trim())
@@ -64,20 +75,46 @@ const MailPage = () => {
       portfolio: "",
       linkedin: "",
     });
+    setSkillsInput("");
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setLoading(true);
-    // Here you can add form validation or actual submission logic
 
-    setTimeout(() => {
+    const skillArray = skillsInput
+      .split(",")
+      .map((s) => s.trim())
+      .filter((s) => s.length > 0);
+
+    const payload = {
+      ...form,
+      skills: skillArray,
+    };
+
+    try {
+      const res = await fetch("/api/mail-generation", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.message || "Failed to generate email");
+
+      setLoading(false);
+
+      setGeneratedEmail(data.email);
+      setOpen(true);
+    } catch (err: any) {
+      console.error("Error:", err);
       setLoading(false);
       Swal.fire({
-        icon: "success",
-        title: "Form Submitted",
-        text: "Your details have been saved successfully!",
+        icon: "error",
+        title: "Error",
+        text: err.message || "Something went wrong",
       });
-    }, 1500);
+    }
   };
 
   return (
@@ -133,10 +170,11 @@ const MailPage = () => {
             id="skills"
             label="Your Skills"
             icon={<ClipboardSignature size={16} />}
-            value={form.skills.join(", ")}
-            onChange={(e) => handleChange("skills", e.target.value)}
+            value={skillsInput}
+            onChange={(e) => setSkillsInput(e.target.value)}
             type="text"
           />
+
           <TextareaField
             id="quality2"
             label="Quality 2"
@@ -190,11 +228,50 @@ const MailPage = () => {
           </Button>
         </div>
       </Card>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="max-w-xl">
+          <DialogHeader>
+            <DialogTitle>Generated Cold Email 📧</DialogTitle>
+            <DialogDescription className="mt-2 max-h-80 overflow-y-auto whitespace-pre-wrap">
+              {generatedEmail}
+            </DialogDescription>
+          </DialogHeader>
+
+          <DialogFooter className="mt-4 flex justify-between">
+            <Button
+              variant="outline"
+              onClick={() => {
+                navigator.clipboard.writeText(generatedEmail);
+
+                setOpen(false);
+                setTimeout(() => {
+                  toast("Copied to clipboard!");
+                  setTimeout(() => {
+                    toast("Thank you for using this!");
+                    setTimeout(() => {
+                      window.location.href = "/";
+                    }, 1000);
+                  }, 1500);
+                }, 300);
+              }}
+            >
+              📋 Copy to Clipboard
+            </Button>
+            <Button
+              onClick={() => {
+                setOpen(false);
+                window.location.href = "/";
+              }}
+            >
+              Done
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
 
-// 🔷 Reusable Form Field (Text Input)
 type FormFieldProps = {
   id: string;
   label: string;
@@ -232,7 +309,6 @@ function FormField({
   );
 }
 
-// 🔷 Reusable Textarea Field
 type TextareaFieldProps = {
   id: string;
   label: string;

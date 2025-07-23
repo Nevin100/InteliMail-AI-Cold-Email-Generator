@@ -51,8 +51,8 @@ const features = [
 const Features = () => {
   return (
     <>
-      <BackgroundPattern />
       <div id="features" className="w-full py-12 xs:py-20 px-6">
+        <BackgroundPattern />
         <h2 className="text-3xl xs:text-4xl sm:text-5xl font-bold tracking-tight text-center">
           Unleash Your Creativity
         </h2>
