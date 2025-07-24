@@ -39,7 +39,7 @@ const Background = () => {
               size="lg"
               className="rounded-full text-base px-6"
             >
-              <Link href="/blog" className="flex items-center gap-2">
+              <Link href="/about-developer" className="flex items-center gap-2">
                 About Me <ArrowUpRight className="w-5 h-5" />
               </Link>
             </Button>
