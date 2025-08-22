@@ -1,4 +1,4 @@
-# 🤖 InteliMail:- AI-Cold-EMail-Generator
+# 🤖 InteliMail:- AI-Cold-EMail-Generator🤖
 
 ### _Zero Awkwardness. All Confidence._
 
