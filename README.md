@@ -3,7 +3,7 @@
 ### _Zero Awkwardness. All Confidence._
 
 Crafting that perfect cold email just got cooler — and smarter.  
-**AI-Generate-Cold-Mailer** is an LLM-powered web tool designed to help you draft *formal*, *professional*, and *polished* cold emails in seconds using the **Gemini LLM**.  
+**AI-Generate-Cold-Mailer** is an LLM-powered web tool designed to help you draft *formal*, *professional*, and *polished* cold emails in seconds using the **Gemini LLM**. 
 No logins. No hassle. Just ✨ smart email generation at your fingertips.
 
 <img width="1365" height="683" alt="image" src="https://github.com/user-attachments/assets/c8d606c8-d8d6-4343-a3e9-93a08fdf5ce3" />
