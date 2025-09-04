@@ -16,7 +16,7 @@ No logins. No hassle. Just ✨ smart email generation at your fingertips.
 1. Enter a few personal and professional details.
 2. Let the Gemini LLM Model cook.
 3. ✨ Instantly generate a well-structured, formal cold email.
-4. Copy it. Paste it. Hit send.  
+4. Copy it. Paste it. and generate a new one 😄.  
    
 Perfect for internship applications, networking outreach, or pitching yourself without sounding... cringy.
 
