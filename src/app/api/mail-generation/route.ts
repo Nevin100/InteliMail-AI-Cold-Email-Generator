@@ -71,13 +71,12 @@ export async function POST(req: NextRequest) {
 
 
     const data = await response.json();
-
     const email =
       data.candidates?.[0]?.content?.parts?.[0]?.text ??
       "Could not generate email";
 
     return new Response(JSON.stringify({ email }), {
-      status: 200,
+      status: 401,
       headers: { "Content-Type": "application/json" },
     });
   } catch (error) {
